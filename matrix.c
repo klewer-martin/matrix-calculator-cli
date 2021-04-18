@@ -27,9 +27,14 @@ void m_initrand(matrix_t *matrix)
 void m_load(matrix_t *matrix)
 {
 	char buf[20];
+	int aux;
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++) {
-			fgets(buf, 20, stdin);
+			empty_string(buf, 20);
+			for(size_t k = 0; ((aux = getchar()) != '\n') && k < MAX_IN_LEN; k++)
+				if(isdigit(aux) || aux == '.')
+					buf[k] = aux;
+			
 			matrix->array[i][j] = strtod(buf, NULL);
 		}
 	}
@@ -97,7 +102,7 @@ void m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 	for(size_t i = 0; i < matrixA->rows; i++) {
 		for(size_t j = 0; j < matrixB->columns; j++) {
 			for(size_t k = aux = 0; k < matrixA->columns; k++)
-				aux += ((matrixA->array[i][k])*(matrixB->array[k][j]));
+				aux += ((matrixA->array[i][k]) / (matrixB->array[k][j]));
 			
 			result->array[i][j] = aux;
 		}	
@@ -142,3 +147,10 @@ bool m_isSimetric(matrix_t *matrix)
 	return true * (aux == (matrix->rows * matrix->columns)) + false * (aux != (matrix->rows * matrix->columns));
 }
 
+void empty_string(char *string, size_t len)
+{
+	if(string == NULL) return;
+
+	for(size_t i = 0; i < len; i++)
+		string[i] = '\0';
+}

@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
+
+#define MAX_IN_LEN 6
 
 typedef struct {
 	size_t rows, columns;
@@ -24,6 +27,8 @@ void m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
 void m_create(size_t rows, size_t columns, matrix_t *matrix);
 void m_destroy(matrix_t *matrix);
 
+
+void empty_string(char *string, size_t len);
 
 bool m_isSimetric(matrix_t *matrix);
 

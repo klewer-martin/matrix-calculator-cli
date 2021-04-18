@@ -24,7 +24,7 @@ int main (void)
 
 	*/
 
-	m_initrand(&matrix);
+	m_load(&matrix);
 	m_print(&matrix);
 	putchar('\n');
 
