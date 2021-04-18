@@ -1,5 +1,5 @@
 #include "main.h"
-#include "matrix_struct.h"
+#include "matrix.h"
 
 #define R 3
 
@@ -32,7 +32,7 @@ int main (void)
 	m_print(&matrix2);
 	putchar('\n');
 
-	m_multiply(&matrix, &matrix2, &matrix_r);
+	m_add(&matrix, &matrix2, &matrix_r);
 	m_print(&matrix_r);
 	putchar('\n');
 
