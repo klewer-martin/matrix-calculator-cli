@@ -1,7 +1,9 @@
 #include "matrix.h"
 
-void m_print(matrix_t *matrix)
+status_t m_print(matrix_t *matrix)
 {
+	if(matrix == NULL) return ERROR_NULL_POINTER;
+
 	for(size_t i = 0; i < matrix->rows; i++) {
 		putchar('(');
 		putchar(' ');
@@ -11,49 +13,61 @@ void m_print(matrix_t *matrix)
 		putchar(')');
 		putchar('\n');
 	}
+	return OK;
 }
 
-void m_initrand(matrix_t *matrix)
+status_t m_initrand(matrix_t *matrix)
 {
+	if(matrix == NULL) return ERROR_NULL_POINTER;
+
 	srand((unsigned int)time(NULL));
-	
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++) {
 			matrix->array[i][j] = ((double)rand()/(double)(RAND_MAX)) * 20;
 		}
 	}
+	return OK;
 }
 
-void m_load(matrix_t *matrix)
+status_t m_load(matrix_t *matrix)
 {
-	char buf[20];
+	if(matrix == NULL) return ERROR_NULL_POINTER;
+
+	char buf[MAX_IN_LEN];
 	int aux;
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++) {
-			empty_string(buf, 20);
+			empty_string(buf, MAX_IN_LEN);
 			for(size_t k = 0; ((aux = getchar()) != '\n') && k < MAX_IN_LEN; k++)
-				if(isdigit(aux) || aux == '.')
+				if(isdigit(aux) || (aux == '.') || (aux == '-'))
 					buf[k] = aux;
 			
 			matrix->array[i][j] = strtod(buf, NULL);
 		}
 	}
+	return OK;
 }
 
-void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
+status_t m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
 {
+	if((matrix == NULL) || (matrix_transpose == NULL))
+		return ERROR_NULL_POINTER;
+
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++)
 			matrix_transpose->array[j][i] = matrix->array[i][j];
 
 	}
+	return OK;
 }
 
-void m_add(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
+status_t m_add(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
+	if((matrixA == NULL) || (matrixB == NULL) || (result == NULL))
+		return ERROR_NULL_POINTER;
 	/*	This operation can be only performed if both matrix are squared and has the same dimension*/
 	if((matrixA->rows != matrixB->rows) || (matrixA->columns != matrixB->columns))
-		return;
+		return ERROR_MATRIX_DIMENSION;
 
 	for(size_t i = 0; i < result->rows; i++) {
 		for(size_t j = 0; j < result->columns; j++) {
@@ -61,13 +75,16 @@ void m_add(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 
 		}	
 	}
+	return OK;
 }
 
-void m_substract(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
+status_t m_substract(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
+	if((matrixA == NULL) || (matrixB == NULL) || (result == NULL))
+		return ERROR_NULL_POINTER;
 	/*	This operation can be only performed if both matrix are squared and has the same dimension*/
-	if((matrixA->rows != matrixB->rows) || (matrixA->columns != matrixB->columns))
-		return;
+	else if((matrixA->rows != matrixB->rows) || (matrixA->columns != matrixB->columns))
+		return ERROR_MATRIX_DIMENSION;
 
 	for(size_t i = 0; i < result->rows; i++) {
 		for(size_t j = 0; j < result->columns; j++) {
@@ -75,12 +92,15 @@ void m_substract(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 
 		}	
 	}
+	return OK;
 }
 
-void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
+status_t m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
-	if(matrixA->columns != matrixB->rows)
-		return;
+	if((matrixA == NULL) || (matrixB == NULL) || (result == NULL))
+		return ERROR_NULL_POINTER;
+	else if(matrixA->columns != matrixB->rows)
+		return ERROR_MATRIX_DIMENSION;
 
 	double aux;
 	for(size_t i = 0; i < matrixA->rows; i++) {
@@ -91,12 +111,15 @@ void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 			result->array[i][j] = aux;
 		}	
 	}
+	return OK;
 }
 
-void m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
+status_t m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
-	if(matrixA->columns != matrixB->rows)
-		return;
+	if((matrixA == NULL) || (matrixB == NULL) || (result == NULL))
+		return ERROR_NULL_POINTER;
+	else if(matrixA->columns != matrixB->rows)
+		return ERROR_MATRIX_DIMENSION;
 
 	double aux;
 	for(size_t i = 0; i < matrixA->rows; i++) {
@@ -107,10 +130,13 @@ void m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 			result->array[i][j] = aux;
 		}	
 	}
+	return OK;
 }
 
-void m_create(size_t rows, size_t columns, matrix_t *matrix)
+status_t m_create(size_t rows, size_t columns, matrix_t *matrix)
 {
+	if(matrix == NULL) return ERROR_NULL_POINTER;
+
 	matrix->rows = rows;
 	matrix->columns = columns;
 
@@ -118,14 +144,19 @@ void m_create(size_t rows, size_t columns, matrix_t *matrix)
 
 	for (size_t i = 0; i < rows; i++)
 		 matrix->array[i] = (double *)malloc(columns * sizeof(double));
+
+	return OK;
 }
 
-void m_destroy(matrix_t *matrix)
+status_t m_destroy(matrix_t *matrix)
 {
+	if(matrix == NULL) return ERROR_NULL_POINTER;
+
 	for (size_t i = 0; i < matrix->rows; i++)
 		 free(matrix->array[i]);
 
 	free(matrix->array);
+	return OK;
 }
 
 bool m_isSimetric(matrix_t *matrix)
@@ -147,10 +178,12 @@ bool m_isSimetric(matrix_t *matrix)
 	return true * (aux == (matrix->rows * matrix->columns)) + false * (aux != (matrix->rows * matrix->columns));
 }
 
-void empty_string(char *string, size_t len)
+status_t empty_string(char *string, size_t len)
 {
-	if(string == NULL) return;
+	if(string == NULL) return ERROR_NULL_POINTER;
 
 	for(size_t i = 0; i < len; i++)
 		string[i] = '\0';
+
+	return OK;
 }

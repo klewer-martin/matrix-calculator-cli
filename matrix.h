@@ -7,6 +7,8 @@
 #include <time.h>
 #include <ctype.h>
 
+#include "status.h"
+
 #define MAX_IN_LEN 6
 
 typedef struct {
@@ -14,21 +16,19 @@ typedef struct {
 	double **array;
 } matrix_t;
 
-void m_print(matrix_t *matrix);
-void m_initrand(matrix_t *matrix);
-void m_load(matrix_t *matrix);
-void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose);
-
-void m_add(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
-void m_substract(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
-void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
-void m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
-
-void m_create(size_t rows, size_t columns, matrix_t *matrix);
-void m_destroy(matrix_t *matrix);
+status_t m_print(matrix_t *matrix);
+status_t m_initrand(matrix_t *matrix);
+status_t m_load(matrix_t *matrix);
+status_t m_transpose(matrix_t *matrix, matrix_t *matrix_transpose);
+status_t m_add(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
+status_t m_substract(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
+status_t m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
+status_t m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
+status_t m_create(size_t rows, size_t columns, matrix_t *matrix);
+status_t m_destroy(matrix_t *matrix);
 
 
-void empty_string(char *string, size_t len);
+status_t empty_string(char *string, size_t len);
 
 bool m_isSimetric(matrix_t *matrix);
 

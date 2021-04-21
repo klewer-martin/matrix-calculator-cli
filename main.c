@@ -28,11 +28,11 @@ int main (void)
 	m_print(&matrix);
 	putchar('\n');
 
-	m_initrand(&matrix2);
+	m_load(&matrix2);
 	m_print(&matrix2);
 	putchar('\n');
 
-	m_add(&matrix, &matrix2, &matrix_r);
+	m_multiply(&matrix, &matrix2, &matrix_r);
 	m_print(&matrix_r);
 	putchar('\n');
 
