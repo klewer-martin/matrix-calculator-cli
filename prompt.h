@@ -6,14 +6,14 @@
 
 #include <unistd.h>
 
-#define MAX_PROMPT_CMD 3
+#define MAX_MAIN_PROMPT_CMD 3
 #define SIZE_OF_BUFFER 10
 
 typedef enum {
 	MAIN_PROMPT
 } user_input_t;
 
-status_t prompt_welcome(void);
+void prompt_welcome(void);
 status_t user_input(user_input_t option);
 status_t main_prompt(void);
 status_t load_m_hand(matrix_t *matrix);

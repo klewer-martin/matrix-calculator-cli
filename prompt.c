@@ -1,15 +1,12 @@
 #include "prompt.h"
 
-status_t prompt_welcome(void)
+void prompt_welcome(void)
 {
 	printf("Welcome to matrix-calculator!\n");
 	printf("What do you want to do?\n");
-	printf("1.- Load a matrix's values of dimensions X x Y by hand.\n");
+	printf("1.- Load a matrix's values of dimensions N x M by hand.\n");
 	printf("2.- Load a matrix's values with a .txt file.\n");
-	printf("3.- Create a random matrix of dimensions X x Y.\n");
-
-	main_prompt();
-	return OK;
+	printf("3.- Create a random matrix of dimensions N x M.\n");
 }
 
 status_t user_input(user_input_t option)
@@ -36,7 +33,10 @@ status_t main_prompt(void)
 
 	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
 	i = strtol(buffer, NULL, 10);
+	if((i < 1) || (i > MAX_MAIN_PROMPT_CMD))
+		return ERROR_MAX_MAIN_PROMPT_REACHED;
 
+	putchar('\n');
 	switch(i) {
 		case 1:
 			{
@@ -45,7 +45,9 @@ status_t main_prompt(void)
 
 				m_create(matrix.rows, matrix.columns, &matrix);
 
+				putchar('\n');
 				m_load(&matrix);
+				printf("%s", "The matrix you entered is:\n");
 				m_print(&matrix);
 				m_destroy(&matrix);
 		}

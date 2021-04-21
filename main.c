@@ -2,8 +2,6 @@
 #include "matrix.h"
 #include "prompt.h"
 
-#define R 3
-
 int main (void)
 {
 	/*
@@ -18,7 +16,11 @@ int main (void)
 
 	m_destroy(&matrix);
 	*/
+	status_t st;
+
 	prompt_welcome();
+	if((st = main_prompt()) != OK)
+		return st;
 
 	return 0;
 }
