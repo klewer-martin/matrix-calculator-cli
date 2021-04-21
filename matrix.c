@@ -48,6 +48,30 @@ status_t m_load(matrix_t *matrix)
 	return OK;
 }
 
+status_t m_load_dim(matrix_t *matrix)
+{
+	if(matrix == NULL) return ERROR_NULL_POINTER;
+
+	char *buffer;
+	buffer = (char *)malloc(DIM_BUFFER_MAX_SIZE * sizeof(char));
+	if(buffer == NULL) return ERROR_ALLOCATING_MEMORY;
+
+	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
+
+	printf("Enter no. of rows: \n");
+	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
+	matrix->rows = strtol(buffer, NULL, 10);
+
+	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
+
+	printf("Enter no. of columns: \n");
+	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
+	matrix->columns = strtol(buffer, NULL, 10);
+
+	free(buffer);
+	return OK;
+}
+
 status_t m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
 {
 	if((matrix == NULL) || (matrix_transpose == NULL))
