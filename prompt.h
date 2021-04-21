@@ -4,4 +4,12 @@
 #include "matrix.h"
 #include "status.h"
 
+typedef enum {
+	MAIN_PROMPT
+} user_input_t;
+
+status_t prompt_welcome(void);
+status_t user_input(user_input_t option);
+status_t main_prompt(void);
+
 #endif
