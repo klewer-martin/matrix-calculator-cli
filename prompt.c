@@ -52,5 +52,7 @@ status_t main_prompt(void)
 				m_destroy(&matrix);
 		}
 	}
+
+	free(buffer);
 	return OK;
 }
