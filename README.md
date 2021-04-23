@@ -1,4 +1,4 @@
-# matrix-calculator-cli
+# Make matrix calculations on the command line!
 WARNING! Work in progress, it doesn't work at the moment!
 
 Matrix calculator is a simple interactive program that can perform matrix operations on the command line.
