@@ -43,7 +43,7 @@ status_t m_load(matrix_t *matrix)
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++) {
 			empty_string(buf, MAX_IN_LEN);
-			printf("Enter value %ld%ld of the matrix: ", i, j);
+			printf("Enter value %ld%ld: ", i, j);
 			for(size_t k = 0; ((aux = getchar()) != '\n') && k < MAX_IN_LEN; k++)
 				if(isdigit(aux) || (aux == '.') || (aux == '-'))
 					buf[k] = aux;
