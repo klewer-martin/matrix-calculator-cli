@@ -5,7 +5,7 @@ matrix-calculator-cli it's a simple interactive program written in C, that can p
 
 The main prompt looks something like this:
 
-![alt text](https://github.com/klewer-martin/matrix-calculator-cli/blob/master/matrix-calculator.png?raw=true)
+![Captura de pantalla 2021-04-23 014554](https://user-images.githubusercontent.com/64109770/115820677-b5e65780-a3d7-11eb-86d8-010cc18b0753.png)
 
 To install it you will need a C compiler(e.g. gcc, clang), GNU make, and the source code that you can download from this repo, then you navigate to the downloaded folder with the terminal of you choice and compile the program running the command:
   $ make.
