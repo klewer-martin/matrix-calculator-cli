@@ -37,19 +37,20 @@ status_t m_load(matrix_t *matrix)
 			( 00 01 .. 0N )\n\
 			( 10 01 .. 1N )\n\
 			( .. .. .. .. )\n\
-			( M0 M1 .. MN )\n");
+			( M0 M1 .. MN )\n\n");
 	char buf[MAX_IN_LEN];
 	int aux;
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++) {
 			empty_string(buf, MAX_IN_LEN);
-			printf("Enter value %ld%ld of the matrix.\n", i, j);
+			printf("Enter value %ld%ld of the matrix: ", i, j);
 			for(size_t k = 0; ((aux = getchar()) != '\n') && k < MAX_IN_LEN; k++)
 				if(isdigit(aux) || (aux == '.') || (aux == '-'))
 					buf[k] = aux;
 			
 			matrix->array[i][j] = strtod(buf, NULL);
 		}
+		putchar('\n');
 	}
 	return OK;
 }
@@ -64,13 +65,13 @@ status_t m_load_dim(matrix_t *matrix)
 
 	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
 
-	printf("%s", "Enter no. of rows: \n");
+	printf("%s", "Enter no. of rows: ");
 	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
 	matrix->rows = strtol(buffer, NULL, 10);
 
 	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
 
-	printf("%s", "Enter no. of columns: \n");
+	printf("%s", "Enter no. of columns: ");
 	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
 	matrix->columns = strtol(buffer, NULL, 10);
 

@@ -15,6 +15,7 @@
 typedef struct {
 	size_t rows, columns;
 	double **array;
+	size_t id;
 } matrix_t;
 
 status_t m_print(matrix_t *matrix);

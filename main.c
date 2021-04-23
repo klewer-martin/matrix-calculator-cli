@@ -18,9 +18,18 @@ int main (void)
 	*/
 	status_t st;
 
+	/*	Only prints the main header	*/
 	prompt_welcome();
-	if((st = main_prompt()) != OK)
-		return st;
 
+	matrix_t matrix;
+
+	/*	The main prompt ask for a matrix interactively and returns a pointer to it	with the values already initialized	*/
+	while( 1 ) {
+		if((st = get_matrix(&matrix)) != OK) {
+			/*	Prompt what do you want to do with the matrix you entered?	*/
+			printf("%s", "What do you want to do with the matrix you entered?: ");
+			return st;
+		}
+	}
 	return 0;
 }
