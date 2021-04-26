@@ -19,7 +19,7 @@ status_t user_input(user_input_t option)
 	return OK;
 }
 
-status_t get_matrix(matrix_t *matrix, unsigned int *matrix_ids)
+status_t get_matrix(matrix_t *matrix)
 {
 	printf("1.- Load a matrix's values of dimensions N x M by hand.\n2.- Load a matrix's values with a .txt file.\n3.- Create a random matrix of dimensions N x M.\nq - exit\n\nWhat do you want to do?: ");
 	char *buffer;
@@ -39,7 +39,6 @@ status_t get_matrix(matrix_t *matrix, unsigned int *matrix_ids)
 	} else if (buffer[0] == 'q') {
 		exit(0);
 	}
-	printf("%d\n", matrix_ids[0]);
 
 	i = strtol(buffer, NULL, 10);
 	if((i < 1) || (i > MAX_MAIN_PROMPT_CMD))
