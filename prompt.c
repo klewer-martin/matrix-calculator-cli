@@ -19,7 +19,7 @@ status_t user_input(user_input_t option)
 	return OK;
 }
 
-status_t get_matrix(matrix_t *matrix)
+status_t get_matrix(matrix_t *matrix, matrix_t **matrix_ids)
 {
 	printf("1.- Load a matrix's values of dimensions N x M by hand.\n2.- Load a matrix's values with a .txt file.\n3.- Create a random matrix of dimensions N x M.\nq - exit\n\nWhat do you want to do?: ");
 	char *buffer;
@@ -51,7 +51,7 @@ status_t get_matrix(matrix_t *matrix)
 		case 1:
 			{
 				/*	Enter the matrix Number(1 .. 128, Default 1):	*/
-				printf("%s", "Enter the matrix Number (1 .. 128, Default 1): ");
+				printf("%s", "Enter the matrix id number (1 .. 128, Default 1): ");
 
 				fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
 				if(buffer[0] == '\n') {

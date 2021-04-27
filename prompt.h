@@ -17,7 +17,7 @@ typedef enum {
 void prompt_welcome(void);
 
 status_t user_input(user_input_t option);
-status_t get_matrix(matrix_t *matrix);
+status_t get_matrix(matrix_t *matrix, matrix_t **matrix_ids);
 status_t matrix_menu_prompt(void);
 status_t load_m_hand(matrix_t *matrix);
 
