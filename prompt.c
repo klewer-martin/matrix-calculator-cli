@@ -1,83 +1,126 @@
 #include "prompt.h"
 
-void prompt_welcome(void)
+status_t main_prompt(matrix_t **matrix_ids)
 {
-	printf("%s", "Welcome to matrix-calculator!\n\n");
-	/*
-	printf("Welcome to matrix-calculator!\n\n1.- Load a matrix's values of dimensions N x M by hand.\n2.- Load a matrix's values with a .txt file.\n3.- Create a random matrix of dimensions N x M.\n\nWhat do you want to do?: ");
-	*/
-}
-
-status_t user_input(user_input_t option)
-{
-	switch (option) {
-		case MAIN_PROMPT:
-			break;
-		
-		default: return ERROR_NO_USER_INPUT;
-	}
-	return OK;
-}
-
-status_t get_matrix(matrix_t *matrix, matrix_t **matrix_ids)
-{
-	printf("1.- Load a matrix's values of dimensions N x M by hand.\n2.- Load a matrix's values with a .txt file.\n3.- Create a random matrix of dimensions N x M.\nq - exit\n\nWhat do you want to do?: ");
+	status_t st;
+	size_t j;
 	char *buffer;
-	size_t i;
 
-	buffer = (char *)malloc(DIM_BUFFER_MAX_SIZE * sizeof(char));
-	if(buffer == NULL) return ERROR_ALLOCATING_MEMORY;
+	/*	buffer to store the user option	*/
+	buffer = (char *)calloc(INPUT_BUFFER_MAX_LENGTH + 1, sizeof(char));
 
-	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
-
-	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
+	/*	Prompt the user for an option	*/
+	fgets(buffer, INPUT_BUFFER_MAX_LENGTH, stdin);
 	if(buffer[0] == '\n') {
 		while(buffer[0] == '\n') {
 			printf("%s", "What do you want to do?: ");
 			fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
 		}
-	} else if (buffer[0] == 'q') {
-		exit(0);
+	}	else if (buffer[0] == 'q') {
+		return EXIT_SUCCESS;
 	}
 
-	i = strtol(buffer, NULL, 10);
-	if((i < 1) || (i > MAX_MAIN_PROMPT_CMD))
-		return ERROR_MAX_MAIN_PROMPT_REACHED;
-
-	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
-
 	putchar('\n');
-	switch(i) {
-		case 1:
+	switch(buffer[0]) {
+		case 'n': {	printf("Hello world!\n");	} break;
+		case 'p':
 			{
-				/*	Enter the matrix Number(1 .. 128, Default 1):	*/
-				printf("%s", "Enter the matrix id number (1 .. 128, Default 1): ");
-
+				empty_string(buffer, DIM_BUFFER_MAX_SIZE);
+				printf("Introduce matrix id to print(Default 1): ");
 				fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
+
 				if(buffer[0] == '\n') {
-					i = 1;
+					j = 1;
 				} else {
-					i = strtol(buffer, NULL, 10);
+					j = strtol(buffer, NULL, 10);
 				}
-
-				/*	Now i contains the ID of the created matrix	*/
-				matrix->id = i;
-				printf("The id you entered is: %lu\n", matrix->id);
-
-				/*	Now we ask for the dimensions of the matrix	*/
-				m_load_dim(matrix);
-
-				/*	And we create the matrix	*/
-				m_create(matrix->rows, matrix->columns, matrix);
-
+				m_print(m_search(j, matrix_ids));
 				putchar('\n');
-				m_load(matrix);
-				printf("%s", "The matrix you entered is: \n");
-				m_print(matrix);
+			} break;
+		case 'a':
+			{
+				static size_t prev_id = 1;
+				size_t *ids_to_add;
+				ids_to_add = (size_t *)calloc(MAX_IN_LEN, sizeof(size_t));
+
+				for(size_t k = 0; k < MAX_ADD_MATRIX; k++) {
+					empty_string(buffer, DIM_BUFFER_MAX_SIZE);
+					printf("Introduce id of the first matrix to add(Default %lu): ", prev_id);
+					fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
+
+					if(buffer[0] == '\n') {
+						ids_to_add[k] = prev_id++;
+						printf("First id to add is: %lu\n", ids_to_add[k]);
+					} else {
+						ids_to_add[k] = strtol(buffer, NULL, 10);
+						printf("First id to add is: %lu\n", ids_to_add[k]);
+					}
+				}
+				if((st = m_add(m_search(ids_to_add[0], matrix_ids), m_search(ids_to_add[1], matrix_ids), matrix_ids[3])) != OK) {
+					printf("Error\n");
+					return st;
+				}
+				m_print(matrix_ids[3]);
 				putchar('\n');
-		}
+			} break;
 	}
 
 	free(buffer);
 	return OK;
 }
+
+/*
+status_t nw(matrix_t **matrix_ids)
+{
+	if(matrix_ids == NULL)
+		return ERROR_NULL_POINTER;
+
+	status_t st;
+	matrix_t matrix;
+	size_t j;
+
+	if((st = get_id(matrix->id) != OK)
+		return st;
+	*/
+	/*	Now i contains the ID of the created matrix	*/
+/*
+	matrix.id = j;
+	printf("The id you entered is: %lu\n", matrix.id);
+*/
+	/*	Now we ask for the dimensions of the matrix	*/
+//	m_load_dim(matrix);
+
+	/*	And we create the matrix	*/
+//	m_create(matrix->rows, matrix->columns, matrix);
+//	putchar('\n');
+
+	/*	Now we ask for the values	*/
+/*
+	m_load(matrix);
+
+	printf("%s", "The matrix you entered is: \n");
+	m_print(matrix);
+	putchar('\n');
+	return OK;
+}
+
+
+status_t get_id(size_t id)
+{
+	static size_t prev_id = 1;
+
+	//	Enter the matrix Number(1 .. 128, Default 1):
+	printf("Enter the matrix id number (1 .. 128, Default %lu): ", prev_id);
+
+	empty_string(buffer, DIM_BUFFER_MAX_SIZE);
+	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
+
+	if(buffer[0] == '\n') {
+		j = prev_id++;
+	} else {
+		j = strtol(buffer, NULL, 10);
+	}
+
+	return OK;
+}
+*/

@@ -7,6 +7,7 @@
 #include <time.h>
 #include <ctype.h>
 
+#include "main.h"
 #include "status.h"
 
 #define MAX_IN_LEN 6
@@ -29,6 +30,8 @@ status_t m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
 status_t m_divide(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
 status_t m_create(size_t rows, size_t columns, matrix_t *matrix);
 status_t m_destroy(matrix_t *matrix);
+
+matrix_t *m_search(size_t id, matrix_t **matrix_ids);
 
 
 status_t empty_string(char *string, size_t len);

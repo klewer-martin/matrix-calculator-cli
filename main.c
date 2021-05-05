@@ -2,30 +2,43 @@
 #include "matrix.h"
 #include "prompt.h"
 
-#include <limits.h>
-
-#define MATRIX_ID_MAX_LENGTH 25
+void alloc_ids(matrix_t **matrix_ids);
+void free_ids(matrix_t **matrix_ids);
 
 int main (void)
 {
 	status_t st;
-	static matrix_t **matrix_ids;
+	matrix_t **matrix_ids;
 
-	/*	Only prints the main header	*/
-	prompt_welcome();
-
-	/*	array to store the matrix entered on the program execution	*/
 	matrix_ids = (matrix_t **)calloc(MATRIX_IDS_ARRAY_LENGTH, sizeof(matrix_t));
-	for(size_t i = 0; i < MATRIX_IDS_ARRAY_LENGTH; i++)
-		matrix_ids[i] = (matrix_t *)calloc(MATRIX_ID_MAX_LENGTH, sizeof(matrix_t));
+	alloc_ids(matrix_ids);
 
-	/*	The main prompt ask for a matrix interactively and returns a pointer to it	with the values already initialized	*/
-	for(size_t i = 0;i < UINT_MAX;i++) {
-		if((st = get_matrix(matrix_ids[i], matrix_ids)) != OK) {
-			/*	Prompt what do you want to do with the matrix you entered?	*/
-			printf("%s", "What do you want to do with the matrix you entered?: ");
+	printf("%s%s", "Welcome to matrix-calculator!\n\n", MAIN_PROMPT_MSG);
+
+	while((st = main_prompt(matrix_ids)) != OK) {
+		if(st != OK) {
+			if(st == EXIT_SUCCESS)
+				return OK;
+
+			free_ids(matrix_ids);
 			return st;
 		}
 	}
+
+	free_ids(matrix_ids);
 	return 0;
+}
+
+void alloc_ids(matrix_t **matrix_ids)
+{
+	for(size_t i = 0; i < MATRIX_IDS_ARRAY_LENGTH; i++)
+		matrix_ids[i] = (matrix_t *)calloc(MATRIX_ID_MAX_LENGTH, sizeof(matrix_t));
+}
+
+void free_ids(matrix_t **matrix_ids)
+{
+	for(size_t i = (MATRIX_IDS_ARRAY_LENGTH - 1); i > 0; i--)
+		free(matrix_ids[i]);
+
+	free(matrix_ids);
 }

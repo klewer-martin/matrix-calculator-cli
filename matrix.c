@@ -94,17 +94,19 @@ status_t m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
 
 status_t m_add(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
-	if((matrixA == NULL) || (matrixB == NULL) || (result == NULL))
-		return ERROR_NULL_POINTER;
 	/*	This operation can be only performed if both matrix are squared and has the same dimension*/
-	if((matrixA->rows != matrixB->rows) || (matrixA->columns != matrixB->columns))
+	if((matrixA == NULL) || (matrixB == NULL) || (result == NULL)) {
+		return ERROR_NULL_POINTER;
+	} else if((matrixA->rows != matrixB->rows) || (matrixA->columns != matrixB->columns)) {
 		return ERROR_MATRIX_DIMENSION;
-
-	for(size_t i = 0; i < result->rows; i++) {
-		for(size_t j = 0; j < result->columns; j++) {
-			result->array[i][j] = matrixA->array[i][j] + matrixB->array[i][j];
-
-		}	
+	} else if((result->rows == 0) || (result->columns == 0) || (result->id == 0)) {
+		return ERROR_MATRIX_NOT_INITIALIZED;
+	} else {
+		for(size_t i = 0; i < result->rows; i++) {
+			for(size_t j = 0; j < result->columns; j++) {
+				result->array[i][j] = matrixA->array[i][j] + matrixB->array[i][j];
+			}	
+		}
 	}
 	return OK;
 }
@@ -218,3 +220,28 @@ status_t empty_string(char *string, size_t len)
 
 	return OK;
 }
+
+matrix_t *m_search(size_t id, matrix_t **matrix_ids)
+{
+	for(size_t i = 0; i < MATRIX_IDS_ARRAY_LENGTH; i++)
+		if(matrix_ids[i]->id == id)
+			return matrix_ids[i];
+
+	return NULL;
+}
+
+matrix_t m_add_ptr(matrix_t *matrixA, matrix_t *matrixB)
+{
+	matrix_t result;
+	m_create(matrixA->rows, matrixA->columns, &result);
+
+	for(size_t i = 0; i < result.rows; i++) {
+		for(size_t j = 0; j < result.columns; j++) {
+			result.array[i][j] = matrixA->array[i][j] + matrixB->array[i][j];
+		}	
+	}
+
+	return result;
+}
+
+
