@@ -31,5 +31,6 @@
 status_t main_prompt(matrix_t **matrix_ids);
 status_t nw(matrix_t **matrix_ids);
 status_t load_m_hand(matrix_t *matrix);
+status_t get_id(size_t *id);
 
 #endif

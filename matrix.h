@@ -13,11 +13,14 @@
 #define MAX_IN_LEN 6
 #define DIM_BUFFER_MAX_SIZE 6
 
-typedef struct {
+struct matrix_s {
 	size_t rows, columns;
 	double **array;
 	size_t id;
-} matrix_t;
+	struct matrix_s *next;
+};
+
+typedef struct matrix_s matrix_t;
 
 status_t m_print(matrix_t *matrix);
 status_t m_initrand(matrix_t *matrix);

@@ -22,7 +22,13 @@ status_t main_prompt(matrix_t **matrix_ids)
 
 	putchar('\n');
 	switch(buffer[0]) {
-		case 'n': {	printf("Hello world!\n");	} break;
+		case 'n':
+			{
+				/*	Create new matrix	*/
+				if(nw(matrix_ids) != OK)
+					return ERROR_CREATING_NEW_MATRIX;
+
+			} break;
 		case 'p':
 			{
 				empty_string(buffer, DIM_BUFFER_MAX_SIZE);
@@ -69,46 +75,45 @@ status_t main_prompt(matrix_t **matrix_ids)
 	return OK;
 }
 
-/*
 status_t nw(matrix_t **matrix_ids)
 {
 	if(matrix_ids == NULL)
 		return ERROR_NULL_POINTER;
 
 	status_t st;
+	static unsigned int matrix_counter;
 	matrix_t matrix;
-	size_t j;
 
-	if((st = get_id(matrix->id) != OK)
+	matrix_counter = 0;
+	if((st = get_id(&matrix.id)) != OK)
 		return st;
-	*/
-	/*	Now i contains the ID of the created matrix	*/
-/*
-	matrix.id = j;
-	printf("The id you entered is: %lu\n", matrix.id);
-*/
-	/*	Now we ask for the dimensions of the matrix	*/
-//	m_load_dim(matrix);
 
+	printf("The id you entered is: %lu\n", matrix.id);
+
+	/*	Now we ask for the dimensions of the matrix	*/
+	m_load_dim(matrix_ids[matrix_counter++]);
+
+	printf("r: %ld, c: %ld", matrix_ids[matrix_counter]->rows, matrix_ids[matrix_counter]->columns);
 	/*	And we create the matrix	*/
-//	m_create(matrix->rows, matrix->columns, matrix);
-//	putchar('\n');
+	m_create(matrix_ids[matrix_counter]->rows, matrix_ids[matrix_counter]->columns, matrix_ids[matrix_counter]);
+	putchar('\n');
 
 	/*	Now we ask for the values	*/
-/*
-	m_load(matrix);
+	m_load(matrix_ids[matrix_counter]);
 
 	printf("%s", "The matrix you entered is: \n");
-	m_print(matrix);
+	m_print(matrix_ids[matrix_counter]);
 	putchar('\n');
 	return OK;
 }
 
 
-status_t get_id(size_t id)
+status_t get_id(size_t *id)
 {
 	static size_t prev_id = 1;
+	char *buffer;
 
+	buffer = (char *)calloc(INPUT_BUFFER_MAX_LENGTH + 1, sizeof(char));
 	//	Enter the matrix Number(1 .. 128, Default 1):
 	printf("Enter the matrix id number (1 .. 128, Default %lu): ", prev_id);
 
@@ -116,11 +121,10 @@ status_t get_id(size_t id)
 	fgets(buffer, DIM_BUFFER_MAX_SIZE, stdin);
 
 	if(buffer[0] == '\n') {
-		j = prev_id++;
+		*id = prev_id++;
 	} else {
-		j = strtol(buffer, NULL, 10);
+		*id = strtol(buffer, NULL, 10);
 	}
 
 	return OK;
 }
-*/

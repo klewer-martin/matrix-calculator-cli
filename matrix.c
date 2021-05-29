@@ -243,5 +243,3 @@ matrix_t m_add_ptr(matrix_t *matrixA, matrix_t *matrixB)
 
 	return result;
 }
-
-

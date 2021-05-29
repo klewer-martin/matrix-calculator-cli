@@ -8,7 +8,7 @@ void free_ids(matrix_t **matrix_ids);
 int main (void)
 {
 	status_t st;
-	matrix_t **matrix_ids;
+	static matrix_t **matrix_ids;
 
 	matrix_ids = (matrix_t **)calloc(MATRIX_IDS_ARRAY_LENGTH, sizeof(matrix_t));
 	alloc_ids(matrix_ids);
